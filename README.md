@@ -1,6 +1,6 @@
 # Assinatura de Refeições
 
-Implementação em Java 17 do caso de uso **Assinar Plano de Refeições**, seguindo o diagrama de classes de projeto
+Implementação em Java do caso de uso **Assinar Plano de Refeições**, seguindo o diagrama de classes de projeto
 (fronteira, controlador, coleções, entidades e objetos externos) com persistência em CSV.
 
 ## Como rodar
