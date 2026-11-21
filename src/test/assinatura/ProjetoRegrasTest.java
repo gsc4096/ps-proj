@@ -26,7 +26,7 @@ class ProjetoRegrasTest {
 
     @Test
     void controladorNaoCriaInstanciasDeEntidades() throws IOException {
-        String codigo = Files.readString(Path.of("src/main/java/assinatura/controle/ControladorAssinatura.java"));
+        String codigo = Files.readString(Path.of("src/main/assinatura/controle/ControladorAssinatura.java"));
         for (String classe : List.of("Assinante", "Assinatura", "Pedido", "Item", "Pagamento", "Endereco", "Entrega")) {
             assertFalse(codigo.contains("new " + classe + "("), "o controlador não pode instanciar " + classe);
         }
