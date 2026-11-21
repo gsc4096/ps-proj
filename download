@@ -1,0 +1,10 @@
+target/
+*.class
+# CSVs gerados em execução (planos.csv e produtos.csv são versionados)
+dados/assinantes.csv
+dados/assinaturas.csv
+dados/enderecos.csv
+dados/pedidos.csv
+dados/itens.csv
+dados/pagamentos.csv
+dados/*.tmp
