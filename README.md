@@ -63,7 +63,7 @@ controlador voltar a usar `new` com alguma entidade.
 - **Previsão de entrega:** data da confirmação + 2 dias; se cair no domingo, passa para segunda.
 - **Plano inativo** não é listado.
 
-## Premissas (ajustar se o enunciado disser outra coisa)
+## Premissas
 
 - O limite do plano vale **por categoria**; escolher zero itens numa categoria é permitido, mas o pedido precisa ter ao menos um item.
 - Novo código **não** zera as tentativas erradas (senão daria pra burlar o bloqueio).
@@ -86,6 +86,7 @@ controlador voltar a usar `new` com alguma entidade.
 
 - `EntidadesTest`, `OperadoraCartaoTest`, `RepositorioCsvTest`: unitários.
 - `FluxoIntegracaoTest`: fluxo principal e os alternativos `FA1` (código bloqueado), `FA2` (pagamento recusado) e `FA3` (desistência). Renomeie os rótulos conforme os diagramas de sequência da equipe.
+- `ProjetoRegrasTest`: regras de projeto (o controlador não instancia entidades; cada objeto é criado pelo seu dono).
 
 ## O que o código não resolve (feedback da entrega 3: vai nos diagramas)
 
