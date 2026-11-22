@@ -3,20 +3,26 @@
 Implementação em Java do caso de uso **Assinar Plano de Refeições**, seguindo o diagrama de classes de projeto
 (fronteira, controlador, coleções, entidades e objetos externos) com persistência em CSV.
 
-## Como rodar
+## Como executar
 
-Sem Maven (só JDK 17+):
+Pré-requisito: **JDK 17+**
+
+Confira com `java -version` e `javac -version`: os dois devem mostrar 17 ou mais. Rode a partir da pasta do projeto, para ele achar a pasta `dados/`.
+
+**Windows (PowerShell):**
+
+```powershell
+New-Item -ItemType Directory -Force -Path out | Out-Null
+$arquivos = Get-ChildItem -Path src\main -Filter *.java -Recurse | Select-Object -ExpandProperty FullName
+javac -encoding UTF-8 -d out $arquivos
+java -cp out assinatura.Main
+```
+
+**Linux / macOS / Git Bash:**
 
 ```bash
 mkdir -p out && javac -encoding UTF-8 -d out $(find src/main -name '*.java')
 java -cp out assinatura.Main            # usa a pasta ./dados
-```
-
-Com Maven:
-
-```bash
-mvn test
-mvn exec:java                           # roda assinatura.Main
 ```
 
 O SMS é simulado: o código de confirmação aparece no próprio console.
@@ -87,11 +93,3 @@ controlador voltar a usar `new` com alguma entidade.
 - `EntidadesTest`, `OperadoraCartaoTest`, `RepositorioCsvTest`: unitários.
 - `FluxoIntegracaoTest`: fluxo principal e os alternativos `FA1` (código bloqueado), `FA2` (pagamento recusado) e `FA3` (desistência). Renomeie os rótulos conforme os diagramas de sequência da equipe.
 - `ProjetoRegrasTest`: regras de projeto (o controlador não instancia entidades; cada objeto é criado pelo seu dono).
-
-## O que o código não resolve (feedback da entrega 3: vai nos diagramas)
-
-- Separar o diagrama de sequência do **fluxo principal** dos **fluxos alternativos**, cada um inteiro, sem segmentar.
-- Reduzir e renomear os estímulos do ator para eventos significativos (hoje o controlador tem 9: `informarCelular`, `informarCodigo`,
-  `solicitarNovoCodigo`, `selecionarPlano`, `informarPreferencias`, `selecionarItens`, `confirmarEndereco`, `informarCartao`, `desistirPagamento`).
-- Mostrar nos diagramas as coleções/multiobjetos (`Assinantes`, `Item`, `Entrega`, `Endereco`) e os `create` feitos pelos donos da tabela acima.
-- Refletir no diagrama de classes de projeto as classes e métodos novos.

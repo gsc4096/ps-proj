@@ -1,10 +1,11 @@
-target/
+out/
 *.class
-# CSVs gerados em execução (planos.csv e produtos.csv são versionados)
+# CSVs gerados em execucao (planos.csv e produtos.csv ficam versionados)
 dados/assinantes.csv
 dados/assinaturas.csv
 dados/enderecos.csv
-dados/pedidos.csv
+dados/entregas.csv
 dados/itens.csv
 dados/pagamentos.csv
+dados/pedidos.csv
 dados/*.tmp
