@@ -119,7 +119,7 @@ class FluxoIntegracaoTest {
 
     void ateOPagamento() {
         ateOEndereco();
-        tela.confirmarEndereco("Rua da Consolação", "930", "", "01302-907", "São Paulo", "SP");
+        tela.confirmarEndereco("Rua da Consolação", "930", "", "01302-907", "Sao Paulo", "SP");
     }
 
     static Cartao cartaoValido() { return new Cartao("Klaus", "4111 1111 1111 1111", "12/99", "737"); }
@@ -150,7 +150,7 @@ class FluxoIntegracaoTest {
         assertTrue(saida().contains(assinatura.getProtocolo()));
 
         assertTrue(csv("assinantes").contains(TELEFONE + ";true;"));
-        assertTrue(csv("assinaturas").contains(";Básico;149.90;ATIVA"));
+        assertTrue(csv("assinaturas").contains(";Basico;149.90;ATIVA"));
         assertEquals(3, linhasDeDados("itens"));
         assertEquals(1, linhasDeDados("pagamentos"));
         assertTrue(csv("pedidos").contains(";APROVADO"));
@@ -158,7 +158,7 @@ class FluxoIntegracaoTest {
         assertEquals(1, controlador.getPedido().getEntregas().size());
 
         for (String arquivo : List.of("assinantes", "assinaturas", "enderecos", "pedidos", "itens", "pagamentos", "entregas")) {
-            assertFalse(csv(arquivo).contains("4111"), "número do cartão não pode ser gravado em " + arquivo);
+            assertFalse(csv(arquivo).contains("4111"), "numero do cartao não pode ser gravado em " + arquivo);
             assertFalse(csv(arquivo).contains(";737"), "CVV não pode ser gravado em " + arquivo);
         }
     }
@@ -169,8 +169,8 @@ class FluxoIntegracaoTest {
         String texto = saida();
         assertTrue(texto.contains("Tofu ao molho shoyu"));
         assertFalse(texto.contains("Frango grelhado"));
-        assertFalse(texto.contains("Lasanha de berinjela"), "vegetariana, mas não é sem lactose");
-        assertFalse(texto.contains("Escondidinho"), "indisponível");
+        assertFalse(texto.contains("Lasanha de berinjela"), "vegetariana, mas nao eh sem lactose");
+        assertFalse(texto.contains("Escondidinho"), "indisponivel");
     }
 
     @Test
@@ -179,7 +179,7 @@ class FluxoIntegracaoTest {
         Produto prato = produtos.listar().get(0);
         tela.selecionarItens("PRATO", Map.of(prato, 6));
         assertEquals(Etapa.ITENS, controlador.getEtapa());
-        assertTrue(saida().contains("Seleção inválida"));
+        assertTrue(saida().contains("Selecao invalida"));
         assertTrue(controlador.getPedido().getItens().isEmpty());
 
         tela.selecionarItens("PRATO", Map.of(prato, 5));
@@ -189,20 +189,20 @@ class FluxoIntegracaoTest {
     @Test
     void enderecoInvalidoNaoAvanca() {
         ateOEndereco();
-        tela.confirmarEndereco("Rua A", "1", "", "123", "São Paulo", "SP");
+        tela.confirmarEndereco("Rua A", "1", "", "123", "Sao Paulo", "SP");
         assertEquals(Etapa.ENDERECO, controlador.getEtapa());
-        assertTrue(saida().contains("Endereço inválido"));
+        assertTrue(saida().contains("Endereço invalido"));
     }
 
     @Test
     void acaoForaDaEtapaRecebeAviso() {
         tela.informarCodigo("123456");
         assertEquals(Etapa.CELULAR, controlador.getEtapa());
-        assertTrue(saida().contains("Ação indisponível nesta etapa"));
+        assertTrue(saida().contains("Acao indisponivel nesta etapa"));
 
         tela.informarCelular("12");
         assertEquals(Etapa.CELULAR, controlador.getEtapa());
-        assertTrue(saida().contains("Celular inválido"));
+        assertTrue(saida().contains("Celular invalido"));
     }
 
     @Test
@@ -213,7 +213,7 @@ class FluxoIntegracaoTest {
         String segundo = notificador.getUltimoCodigo();
         if (!primeiro.equals(segundo)) {
             tela.informarCodigo(primeiro);
-            assertEquals(Etapa.CODIGO, controlador.getEtapa(), "código antigo deixou de valer");
+            assertEquals(Etapa.CODIGO, controlador.getEtapa(), "codigo antigo deixou de valer");
         }
         tela.informarCodigo(segundo);
         assertEquals(Etapa.PLANO, controlador.getEtapa());
@@ -252,7 +252,7 @@ class FluxoIntegracaoTest {
                 new GatewayOperadoraCartao(new OperadoraCartao()), RELOGIO);
         console.executar();
         assertTrue(saida().contains("bloqueado"));
-        assertTrue(saida().contains("Celular (DDD + número):"));
+        assertTrue(saida().contains("Celular (DDD + numero):"));
     }
 
     // ---------- FA2: pagamento recusado ----------
@@ -288,7 +288,7 @@ class FluxoIntegracaoTest {
         assertFalse(controlador.isAprovado());
         assertEquals(Assinatura.CANCELADA, controlador.getAssinatura().getStatus());
         assertEquals(Pedido.CANCELADO, controlador.getPedido().getStatus());
-        assertTrue(saida().contains("Encerrado sem ativação"));
+        assertTrue(saida().contains("Encerrado sem ativacao"));
         assertTrue(csv("assinaturas").contains(";CANCELADA"));
         assertTrue(csv("pedidos").contains(";CANCELADO"));
         assertEquals(0, linhasDeDados("pagamentos"));

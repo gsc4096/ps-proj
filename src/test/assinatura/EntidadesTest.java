@@ -21,7 +21,7 @@ import assinatura.entidade.Produto;
 
 class EntidadesTest {
 
-    private final Plano basico = new Plano("Básico", 5, new BigDecimal("149.90"), "SEMANAL", true);
+    private final Plano basico = new Plano("Basico", 5, new BigDecimal("149.90"), "SEMANAL", true);
 
     @Test
     void celularAceitaMascaraEExigeDddMaisNumero() {
@@ -40,7 +40,7 @@ class EntidadesTest {
         assertTrue(codigo.matches("\\d{6}"));
         assertEquals(Assinante.OK, a.validarCodigo(codigo));
         assertTrue(a.isCelularValidado());
-        assertEquals(Assinante.INVALIDO, a.validarCodigo(codigo), "código já foi consumido");
+        assertEquals(Assinante.INVALIDO, a.validarCodigo(codigo), "codigo ja foi consumido");
     }
 
     @Test
@@ -116,9 +116,9 @@ class EntidadesTest {
 
         assertTrue(pedido.validarSelecao("PRATO", Map.of(lasanha, 5), basico));
         assertFalse(pedido.validarSelecao("PRATO", Map.of(lasanha, 6), basico), "passou do limite");
-        assertFalse(pedido.validarSelecao("PRATO", Map.of(strogonoff, 1), basico), "não atende a preferência");
+        assertFalse(pedido.validarSelecao("PRATO", Map.of(strogonoff, 1), basico), "nao atende a preferencia");
         assertFalse(pedido.validarSelecao("PRATO", Map.of(lasanha, 0), basico), "quantidade zero");
-        assertTrue(pedido.validarSelecao("PRATO", Map.of(), basico), "pular categoria é válido");
+        assertTrue(pedido.validarSelecao("PRATO", Map.of(), basico), "pular categoria eh valido");
 
         pedido.substituirItens("PRATO", Map.of(lasanha, 3));
         assertEquals(1, pedido.getItens().size());

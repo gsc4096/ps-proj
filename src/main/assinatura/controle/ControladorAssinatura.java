@@ -67,15 +67,15 @@ public class ControladorAssinatura {
         }
         Optional<Assinante> encontrado = assinantes.registrar(celular);
         if (encontrado.isEmpty()) {
-            tela.exibirAviso("Celular inválido. Informe DDD + número.");
+            tela.exibirAviso("Celular invalido. Informe DDD + numero.");
             return;
         }
         assinante = encontrado.get();
         if (assinante.isCodigoBloqueado()) {
             bloqueado = true;
             etapa = Etapa.ENCERRADO;
-            tela.exibirAviso("Este celular está bloqueado após " + Assinante.MAX_TENTATIVAS
-                    + " códigos inválidos. Procure o suporte.");
+            tela.exibirAviso("Este celular esta bloqueado apos " + Assinante.MAX_TENTATIVAS
+                    + " codigos invalidos. Procure o suporte.");
             return;
         }
         emitirEEnviarCodigo();
@@ -98,9 +98,9 @@ public class ControladorAssinatura {
             case Assinante.BLOQUEADO -> {
                 bloqueado = true;
                 etapa = Etapa.ENCERRADO;
-                tela.exibirAviso("Celular bloqueado após " + Assinante.MAX_TENTATIVAS + " códigos inválidos.");
+                tela.exibirAviso("Celular bloqueado apos " + Assinante.MAX_TENTATIVAS + " codigos invalidos.");
             }
-            default -> tela.exibirAviso("Código inválido. Tentativas restantes: " + assinante.tentativasRestantes() + ".");
+            default -> tela.exibirAviso("Codigo invalido. Tentativas restantes: " + assinante.tentativasRestantes() + ".");
         }
     }
 
@@ -116,7 +116,7 @@ public class ControladorAssinatura {
             return;
         }
         if (plano == null || !planos.listar().contains(plano)) {
-            tela.exibirAviso("Plano indisponível.");
+            tela.exibirAviso("Plano indisponivel.");
             return;
         }
         assinatura = assinante.contratar(plano);
@@ -147,7 +147,7 @@ public class ControladorAssinatura {
         }
         Plano plano = assinatura.getPlano();
         if (!pedido.validarSelecao(atual, escolhas, plano)) {
-            tela.exibirAviso("Seleção inválida: confira a disponibilidade, as preferências e o limite de "
+            tela.exibirAviso("Selecao invalida: confira a disponibilidade, as preferencias e o limite de "
                     + plano.getQtdRefeicoes() + " unidades por categoria do plano " + plano.getNome() + ".");
             return;
         }
@@ -163,13 +163,13 @@ public class ControladorAssinatura {
             return;
         }
         if (!assinatura.aguardarPagamento(logradouro, numero, complemento, cep, cidade, uf)) {
-            tela.exibirAviso("Endereço inválido. Confira logradouro, número, CEP (8 dígitos), cidade e UF.");
+            tela.exibirAviso("Endereco invalido. Confira logradouro, numero, CEP (8 digitos), cidade e UF.");
             return;
         }
         assinatura.salvar();
         etapa = Etapa.CARTAO;
         tela.exibirAviso("Valor a pagar: R$ " + assinatura.getValor().toPlainString().replace('.', ',')
-                + ". Informe o cartão ou desista.");
+                + ". Informe o cartao ou desista.");
     }
 
     public void informarCartao(Cartao cartao) {
@@ -179,7 +179,7 @@ public class ControladorAssinatura {
         String codigo = gateway.autorizar(cartao, assinatura.getValor());
         if (codigo == null || codigo.isBlank()) {
             aprovado = false;
-            tela.exibirAviso("Pagamento recusado pela operadora. Tente outro cartão ou desista.");
+            tela.exibirAviso("Pagamento recusado pela operadora. Tente outro cartao ou desista.");
             return;
         }
         aprovado = true;
@@ -194,7 +194,7 @@ public class ControladorAssinatura {
             return;
         }
         desistiu = true;
-        encerrarSemAtivacao("Encerrado sem ativação da assinatura.");
+        encerrarSemAtivacao("Encerrado sem ativacao da assinatura.");
     }
 
     // ---------- apoio ----------
@@ -215,7 +215,7 @@ public class ControladorAssinatura {
                 tela.exibirProdutos(categoria, opcoes);
                 return;
             }
-            tela.exibirAviso("Sem produtos disponíveis em " + categoria + " para as suas preferências.");
+            tela.exibirAviso("Sem produtos disponiveis em " + categoria + " para as suas preferencias.");
             indiceCategoria++;
         }
         finalizarSelecao();
@@ -226,10 +226,10 @@ public class ControladorAssinatura {
             boolean haOpcoes = CATEGORIAS.stream().anyMatch(c -> produtos.listar().stream()
                     .anyMatch(p -> p.atendeSelecao(c, assinante.getPreferencias())));
             if (!haOpcoes) {
-                encerrarSemAtivacao("Nenhum produto disponível para as suas preferências.");
+                encerrarSemAtivacao("Nenhum produto disponivel para as suas preferencias.");
                 return;
             }
-            tela.exibirAviso("Seu pedido está vazio. Escolha ao menos um item.");
+            tela.exibirAviso("Seu pedido esta vazio. Escolha ao menos um item.");
             indiceCategoria = 0;
             mostrarProximaCategoria();
             return;
@@ -247,7 +247,7 @@ public class ControladorAssinatura {
 
     private boolean naEtapa(Etapa esperada) {
         if (etapa != esperada) {
-            tela.exibirAviso("Ação indisponível nesta etapa.");
+            tela.exibirAviso("Acao indisponivel nesta etapa.");
             return false;
         }
         return true;

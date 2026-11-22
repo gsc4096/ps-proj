@@ -1,5 +1,5 @@
 nome;qtdRefeicoes;valor;periodicidade;ativo
-Básico;5;149.90;SEMANAL;true
-Família;10;279.90;SEMANAL;true
+Basico;5;149.90;SEMANAL;true
+Familia;10;279.90;SEMANAL;true
 Mensal Premium;20;499.90;MENSAL;true
 Legado;8;199.90;SEMANAL;false

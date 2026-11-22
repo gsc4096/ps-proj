@@ -16,7 +16,7 @@ public class Notificador {
     public void enviarCodigo(String celular, String codigo) {
         this.ultimoCelular = celular;
         this.ultimoCodigo = codigo;
-        saida.println("[SMS simulado] Para " + celular + ": seu código de confirmação é " + codigo);
+        saida.println("[SMS simulado] Para " + celular + ": seu codigo de confirmacao eh " + codigo);
     }
 
     public String getUltimoCelular() { return ultimoCelular; }

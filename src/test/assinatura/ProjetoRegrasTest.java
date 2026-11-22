@@ -28,7 +28,7 @@ class ProjetoRegrasTest {
     void controladorNaoCriaInstanciasDeEntidades() throws IOException {
         String codigo = Files.readString(Path.of("src/main/assinatura/controle/ControladorAssinatura.java"));
         for (String classe : List.of("Assinante", "Assinatura", "Pedido", "Item", "Pagamento", "Endereco", "Entrega")) {
-            assertFalse(codigo.contains("new " + classe + "("), "o controlador não pode instanciar " + classe);
+            assertFalse(codigo.contains("new " + classe + "("), "o controlador nao pode instanciar " + classe);
         }
     }
 
@@ -37,7 +37,7 @@ class ProjetoRegrasTest {
         RepositorioCsv.usar(pasta);
         ColecaoAssinantes assinantes = new ColecaoAssinantes(RepositorioCsv.padrao());
 
-        assertTrue(assinantes.registrar("123").isEmpty(), "celular inválido");
+        assertTrue(assinantes.registrar("123").isEmpty(), "celular invalido");
         Assinante a = assinantes.registrar("(11) 91234-5678").orElseThrow();
         assertSame(a, assinantes.registrar("11912345678").orElseThrow(), "mesmo celular, mesmo objeto");
         assertSame(a, assinantes.buscar("11912345678").orElseThrow());
@@ -51,13 +51,13 @@ class ProjetoRegrasTest {
     @Test
     void cadaObjetoNasceDentroDoSeuDono() {
         RepositorioCsv.usar(pasta);
-        Plano plano = new Plano("Básico", 5, new BigDecimal("149.90"), "SEMANAL", true);
+        Plano plano = new Plano("Basico", 5, new BigDecimal("149.90"), "SEMANAL", true);
         Assinante assinante = new Assinante();
         assinante.registrarCelular("11912345678");
 
         Assinatura assinatura = assinante.contratar(plano);       // Assinante cria Assinatura
         Pedido pedido = assinatura.gerarPedido();                  // Assinatura cria Pedido
-        assertTrue(assinatura.aguardarPagamento("Rua A", "1", "", "01302907", "São Paulo", "SP")); // cria Endereco
+        assertTrue(assinatura.aguardarPagamento("Rua A", "1", "", "01302907", "Sao Paulo", "SP")); // cria Endereco
         assinatura.confirmar("AUT-1", pedido, java.time.LocalDateTime.of(2026, 11, 16, 12, 0));    // cria Pagamento
 
         assertSame(assinatura, assinante.getAssinaturas().get(0));

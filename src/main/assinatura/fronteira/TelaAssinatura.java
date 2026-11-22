@@ -28,7 +28,7 @@ public class TelaAssinatura {
     private static final DateTimeFormatter DATA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final List<String> OPCOES_PREFERENCIA = List.of("VEGETARIANO", "SEM_LACTOSE", "SEM_GLUTEN");
     private static final List<String> ROTULOS_PREFERENCIA =
-            List.of("Vegetariano", "Intolerante a lactose", "Intolerante a glúten");
+            List.of("Vegetariano", "Intolerante a lactose", "Intolerante a gluten");
 
     private final BufferedReader entrada;
     private final PrintStream saida;
@@ -70,10 +70,10 @@ public class TelaAssinatura {
     public void exibirPlanos(List<Plano> planos) {
         planosExibidos = List.copyOf(planos);
         saida.println();
-        saida.println("Planos disponíveis:");
+        saida.println("Planos disponiveis:");
         for (int i = 0; i < planos.size(); i++) {
             Plano p = planos.get(i);
-            saida.printf("  %d) %s - %d refeições, %s, %s%n", i + 1, p.getNome(), p.getQtdRefeicoes(),
+            saida.printf("  %d) %s - %d refeicoes, %s, %s%n", i + 1, p.getNome(), p.getQtdRefeicoes(),
                     p.getPeriodicidade().toLowerCase(), moeda(p.getValor()));
         }
     }
@@ -82,7 +82,7 @@ public class TelaAssinatura {
         categoriaExibida = categoria;
         produtosExibidos = List.copyOf(produtos);
         saida.println();
-        saida.println("Opções de " + categoria + ":");
+        saida.println("Opcoes de " + categoria + ":");
         for (int i = 0; i < produtos.size(); i++) {
             saida.printf("  %d) %s%n", i + 1, produtos.get(i).getNome());
         }
@@ -112,11 +112,11 @@ public class TelaAssinatura {
 
     /** Repete as perguntas conforme a etapa do controlador até o fluxo terminar (ou a entrada acabar). */
     public void executar() {
-        saida.println("=== Assinatura de Refeições ===");
+        saida.println("=== Assinatura de Refeicoes ===");
         try {
             while (controlador.getEtapa() != ControladorAssinatura.Etapa.ENCERRADO) {
                 switch (controlador.getEtapa()) {
-                    case CELULAR -> informarCelular(ler("Celular (DDD + número): "));
+                    case CELULAR -> informarCelular(ler("Celular (DDD + numero): "));
                     case CODIGO -> lerCodigo();
                     case PLANO -> lerPlano();
                     case PREFERENCIAS -> lerPreferencias();
@@ -133,7 +133,7 @@ public class TelaAssinatura {
     }
 
     private void lerCodigo() {
-        String codigo = ler("Código recebido por SMS (N = novo código): ");
+        String codigo = ler("Codigo recebido por SMS (N = novo codigo): ");
         if (codigo.equalsIgnoreCase("N")) {
             solicitarNovoCodigo();
         } else {
@@ -142,9 +142,9 @@ public class TelaAssinatura {
     }
 
     private void lerPlano() {
-        Integer escolha = numero(ler("Escolha o plano (número): "));
+        Integer escolha = numero(ler("Escolha o plano (numero): "));
         if (escolha == null || escolha < 1 || escolha > planosExibidos.size()) {
-            exibirAviso("Opção inválida.");
+            exibirAviso("Opcao invalida.");
             return;
         }
         selecionarPlano(planosExibidos.get(escolha - 1));
@@ -152,11 +152,11 @@ public class TelaAssinatura {
 
     private void lerPreferencias() {
         saida.println();
-        saida.println("Preferências alimentares:");
+        saida.println("Preferencias alimentares:");
         for (int i = 0; i < ROTULOS_PREFERENCIA.size(); i++) {
             saida.printf("  %d) %s%n", i + 1, ROTULOS_PREFERENCIA.get(i));
         }
-        String resposta = ler("Números separados por vírgula (ENTER = nenhuma): ");
+        String resposta = ler("Numeros separados por virgula (ENTER = nenhuma): ");
         List<String> escolhidas = new ArrayList<>();
         for (String parte : resposta.split(",")) {
             if (parte.isBlank()) {
@@ -164,7 +164,7 @@ public class TelaAssinatura {
             }
             Integer n = numero(parte);
             if (n == null || n < 1 || n > OPCOES_PREFERENCIA.size()) {
-                exibirAviso("Opção inválida: " + parte.trim());
+                exibirAviso("Opcao invalida: " + parte.trim());
                 return;
             }
             escolhidas.add(OPCOES_PREFERENCIA.get(n - 1));
@@ -173,7 +173,7 @@ public class TelaAssinatura {
     }
 
     private void lerItens() {
-        String resposta = ler("Itens de " + categoriaExibida + " no formato número:qtde, separados por vírgula (ENTER = pular): ");
+        String resposta = ler("Itens de " + categoriaExibida + " no formato: (numero do item:quantidade), separados por virgula (ENTER = pular): ");
         Map<Produto, Integer> escolhas = new LinkedHashMap<>();
         for (String parte : resposta.split(",")) {
             if (parte.isBlank()) {
@@ -183,7 +183,7 @@ public class TelaAssinatura {
             Integer posicao = par.length == 2 ? numero(par[0]) : null;
             Integer qtde = par.length == 2 ? numero(par[1]) : null;
             if (posicao == null || qtde == null || posicao < 1 || posicao > produtosExibidos.size()) {
-                exibirAviso("Formato inválido: " + parte.trim());
+                exibirAviso("Formato invalido: " + parte.trim());
                 return;
             }
             escolhas.merge(produtosExibidos.get(posicao - 1), qtde, Integer::sum);
@@ -193,9 +193,9 @@ public class TelaAssinatura {
 
     private void lerEndereco() {
         saida.println();
-        saida.println("Endereço de entrega:");
+        saida.println("Endereco de entrega:");
         String logradouro = ler("  Logradouro: ");
-        String numero = ler("  Número: ");
+        String numero = ler("  Numero: ");
         String complemento = ler("  Complemento (opcional): ");
         String cep = ler("  CEP: ");
         String cidade = ler("  Cidade: ");
@@ -204,7 +204,7 @@ public class TelaAssinatura {
     }
 
     private void lerCartao() {
-        String numero = ler("Número do cartão (D = desistir): ");
+        String numero = ler("Numero do cartao (D = desistir): ");
         if (numero.equalsIgnoreCase("D")) {
             desistirPagamento();
             return;
